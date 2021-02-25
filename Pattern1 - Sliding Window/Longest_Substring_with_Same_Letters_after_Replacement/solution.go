@@ -28,9 +28,7 @@ func findLength(str string, k int) int {
 	for windowEnd := 0; windowEnd < len(str); windowEnd++ {
 		curChar := str[windowEnd]
 		charMap[curChar]++
-		if charMap[curChar] > MaxRepeatNum {
-			MaxRepeatNum = charMap[curChar]
-		}
+		MaxRepeatNum = max(charMap[curChar], MaxRepeatNum)
 
 		for windowEnd-windowStart+1-MaxRepeatNum > k {
 			delChar := str[windowStart]
