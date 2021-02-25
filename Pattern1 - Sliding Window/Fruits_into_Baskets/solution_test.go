@@ -13,6 +13,7 @@ func Test_findLength(t *testing.T) {
 	}{
 		{"case1", args{arr: []byte{'A', 'B', 'C', 'A', 'C'}}, 3},
 		{"case2", args{arr: []byte{'A', 'B', 'C', 'B', 'B', 'C'}}, 5},
+		{"case3", args{arr: []byte{'A', 'R', 'A', 'A', 'C', 'I'}}, 4},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
