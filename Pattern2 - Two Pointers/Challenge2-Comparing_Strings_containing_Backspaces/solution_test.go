@@ -16,7 +16,8 @@ func Test_compare(t *testing.T) {
 		{"case2", args{"xy#z", "xyz#"}, false},
 		{"case3", args{"xp#", "xyz##"}, true},
 		{"case4", args{"xywrrmp", "xywrrmu#p"}, true},
-		{"case5", args{"", ""}, true},
+		{"case5", args{"xy##z", "z"}, true},
+		{"case5", args{"xy##z", "z#"}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
