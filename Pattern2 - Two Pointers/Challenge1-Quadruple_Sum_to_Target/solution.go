@@ -29,13 +29,13 @@ func searchQuadruplets(arr []int, target int) [][4]int {
 			if j > i+1 && arr[j] == arr[j-1] {
 				continue
 			}
-			quadruplets = searchPair(arr, j+1, target, arr[i], arr[j], quadruplets)
+			quadruplets = searchTuple(arr, j+1, target, arr[i], arr[j], quadruplets)
 		}
 	}
 	return quadruplets
 }
 
-func searchPair(arr []int, left int, target int, first, second int, quadruplets [][4]int) [][4]int {
+func searchTuple(arr []int, left int, target int, first, second int, quadruplets [][4]int) [][4]int {
 	// assume arr is sorted
 	var (
 		i, j = left, len(arr) - 1
