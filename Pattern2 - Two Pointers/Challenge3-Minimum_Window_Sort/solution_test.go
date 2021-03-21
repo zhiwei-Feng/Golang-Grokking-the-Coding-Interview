@@ -15,6 +15,7 @@ func Test_sort(t *testing.T) {
 		{"case2", args{[]int{1, 3, 2, 0, -1, 7, 10}}, 5},
 		{"case3", args{[]int{1, 2, 3}}, 0},
 		{"case4", args{[]int{3, 2, 1}}, 3},
+		{"case4", args{[]int{1, 3, 2, 0, -1, 0, 7, 10}}, 6},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
