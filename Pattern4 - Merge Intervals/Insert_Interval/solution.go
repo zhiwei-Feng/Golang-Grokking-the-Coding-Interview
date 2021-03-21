@@ -1,7 +1,5 @@
 package Insert_Interval
 
-import "sort"
-
 /*
 Given a list of non-overlapping intervals sorted by their start time,
 insert a given interval at the correct position and merge all necessary intervals to produce a list that has only mutually exclusive intervals.
@@ -32,30 +30,40 @@ func max(i, j int) int {
 	}
 }
 
+func min(i, j int) int {
+	if i > j {
+		return j
+	} else {
+		return i
+	}
+}
+
 func insert(intervals []Interval, newInterval Interval) []Interval {
 	if len(intervals) == 0 {
 		return []Interval{newInterval}
 	}
 	var (
 		mergedIntervals = make([]Interval, 0, len(intervals)+1)
-		start           int
-		end             int
+		i               = 0
 	)
-	intervals = append(intervals, newInterval)
-	sort.SliceStable(intervals, func(i, j int) bool {
-		return intervals[i].Start <= intervals[j].Start
-	})
 
-	start, end = intervals[0].Start, intervals[0].End
-	for _, currInterv := range intervals {
-		if currInterv.Start <= end {
-			end = max(currInterv.End, end)
-		} else {
-			mergedIntervals = append(mergedIntervals, Interval{start, end})
-			start = currInterv.Start
-			end = currInterv.End
-		}
+	for i < len(intervals) && intervals[i].End < newInterval.Start {
+		mergedIntervals = append(mergedIntervals, intervals[i])
+		i++
 	}
-	mergedIntervals = append(mergedIntervals, Interval{start, end})
+
+	for i < len(intervals) && intervals[i].Start <= newInterval.End {
+		newInterval.Start = min(intervals[i].Start, newInterval.Start)
+		newInterval.End = max(intervals[i].End, newInterval.End)
+		i++
+	}
+
+	mergedIntervals = append(mergedIntervals, newInterval)
+
+	for i < len(intervals) {
+		mergedIntervals = append(mergedIntervals, intervals[i])
+		i++
+	}
+
 	return mergedIntervals
 }
