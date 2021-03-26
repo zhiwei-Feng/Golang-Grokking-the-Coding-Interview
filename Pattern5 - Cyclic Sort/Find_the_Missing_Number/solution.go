@@ -25,7 +25,7 @@ func findMissingNumber(nums []int) int {
 	//	}
 	//}
 	//return -1
-	// version2
+	// version2 -> time:O(n)
 	var i = 0
 	for i < len(nums) {
 		if nums[i] < len(nums) && nums[i] != nums[nums[i]] {

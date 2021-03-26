@@ -17,10 +17,13 @@ Output: [1, 2, 3, 4, 5, 6]
 */
 
 func sort(nums []int) {
-	for i := 0; i < len(nums); i++ {
-		for nums[i] != i+1 {
-			j := nums[i] - 1
+	var i = 0
+	for i < len(nums) {
+		j := nums[i] - 1
+		if nums[i] != nums[j] {
 			nums[i], nums[j] = nums[j], nums[i]
+		} else {
+			i++
 		}
 	}
 }
