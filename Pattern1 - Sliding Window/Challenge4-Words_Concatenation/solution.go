@@ -15,6 +15,9 @@ Explanation: The only substring containing both the words is "catfox".
 */
 
 func findWordConcatenation(str string, words []string) []int {
+	if len(words) == 0 || len(str) == 0 {
+		return []int{}
+	}
 	var (
 		wordFreqMap = make(map[string]int)
 		wordsCount  = len(words)

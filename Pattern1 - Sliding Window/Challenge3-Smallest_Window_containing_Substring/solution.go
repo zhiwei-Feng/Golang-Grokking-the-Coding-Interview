@@ -17,6 +17,9 @@ Explanation: No substring in the given string has all characters of the pattern.
 */
 
 func findSubstring(str, pattern string) string {
+	if len(pattern) > len(str) {
+		return ""
+	}
 	var (
 		windowStart = 0
 		matched     = 0
@@ -37,7 +40,7 @@ func findSubstring(str, pattern string) string {
 			}
 		}
 
-		for matched == len(patternMap) { // 如果当前window包含pattern所有的字符，则从左收缩窗口至不完全包含状态
+		for matched == len(pattern) { // 如果当前window包含pattern所有的字符，则从左收缩窗口至不完全包含状态
 			if minLength > windowEnd-windowStart+1 {
 				minLength = windowEnd - windowStart + 1
 				subStrStart = windowStart
