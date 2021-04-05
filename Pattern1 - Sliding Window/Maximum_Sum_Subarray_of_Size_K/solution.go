@@ -37,6 +37,5 @@ func findMaxSumSubArray(k int, arr []int) int {
 			windowStart++
 		}
 	}
-
 	return maxSum
 }

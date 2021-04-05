@@ -48,5 +48,9 @@ func findMinSubArray(S int, arr []int) int {
 			windowStart++
 		}
 	}
+
+	if smallest == -1 {
+		return 0
+	}
 	return smallest
 }
