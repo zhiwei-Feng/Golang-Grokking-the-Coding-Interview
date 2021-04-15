@@ -27,6 +27,8 @@ func Test_rotate(t *testing.T) {
 	head2.Next.Next.Next.Next = &ListNode{Value: 5}
 	head2.Next.Next.Next.Next.Next = &ListNode{Value: 6}
 
+	head3 := &ListNode{Value: 1}
+
 	tests := []struct {
 		name string
 		args args
@@ -34,6 +36,7 @@ func Test_rotate(t *testing.T) {
 	}{
 		{"case1", args{head2, 3}, node4},
 		{"case2", args{head1, 8}, node3},
+		{"case3", args{head3, 2}, head3},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

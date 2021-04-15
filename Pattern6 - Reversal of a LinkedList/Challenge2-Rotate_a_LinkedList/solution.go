@@ -10,29 +10,23 @@ type ListNode struct {
 }
 
 func rotate(head *ListNode, k int) *ListNode {
+	// 2N -> O(N)
 	if head == nil || head.Next == nil || k <= 0 {
 		return head
 	}
 
 	var (
-		tail   *ListNode
-		length = 0
+		lastNode = head
+		length   = 1
 	)
 
-	move := head
-	for move != nil {
-		tail = move
-		move = move.Next
+	for lastNode.Next != nil {
 		length++
+		lastNode = lastNode.Next
 	}
+	lastNode.Next = head
 
 	k = length - (k % length)
-
-	move = head
-	for i := 0; i < k; i++ {
-		move = move.Next
-	}
-	tail.Next = head
 	lastNodeOfTail := head
 	for i := 0; i < k-1; i++ {
 		lastNodeOfTail = lastNodeOfTail.Next
