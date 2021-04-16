@@ -17,34 +17,26 @@ func levelOrder(head *TreeNode) [][]int {
 		return [][]int{}
 	}
 	var (
-		result              = make([][]int, 0, 10)
-		queue               = make([]*TreeNode, 0, 10)
-		lastNodeOfPrevLevel *TreeNode
-		currentLevel        = 0
-		tmpLastNode         *TreeNode
+		result = make([][]int, 0, 10)
+		queue  = make([]*TreeNode, 0, 10)
 	)
 
 	queue = append(queue, head)
-	lastNodeOfPrevLevel = head
-	result = append(result, make([]int, 0, 10))
 	for len(queue) > 0 {
-		currentNode := queue[0]
-		queue = queue[1:]
-		result[currentLevel] = append(result[currentLevel], currentNode.Val)
-		if currentNode.Left != nil {
-			queue = append(queue, currentNode.Left)
-			tmpLastNode = currentNode.Left
+		levelSize := len(queue)
+		currentLevelArray := make([]int, 0, levelSize)
+		for i := 0; i < levelSize; i++ {
+			curNode := queue[0]
+			queue = queue[1:]
+			currentLevelArray = append(currentLevelArray, curNode.Val)
+			if curNode.Left != nil {
+				queue = append(queue, curNode.Left)
+			}
+			if curNode.Right != nil {
+				queue = append(queue, curNode.Right)
+			}
 		}
-		if currentNode.Right != nil {
-			queue = append(queue, currentNode.Right)
-			tmpLastNode = currentNode.Right
-		}
-
-		if currentNode == lastNodeOfPrevLevel && len(queue) > 0 {
-			lastNodeOfPrevLevel = tmpLastNode
-			result = append(result, make([]int, 0, 10))
-			currentLevel++
-		}
+		result = append(result, currentLevelArray)
 	}
 
 	return result
