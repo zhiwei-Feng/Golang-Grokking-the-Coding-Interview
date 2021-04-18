@@ -14,32 +14,20 @@ type TreeNode struct {
 	Left, Right *TreeNode
 }
 
-func reverse(arr []int) {
-	var (
-		i = 0
-		j = len(arr) - 1
-	)
-	for i < j {
-		arr[i], arr[j] = arr[j], arr[i]
-		i++
-		j--
-	}
-}
-
 func zigzagLevelOrder(root *TreeNode) [][]int {
 	if root == nil {
 		return [][]int{}
 	}
 	var (
-		result     = make([][]int, 0)
-		queue      = make([]*TreeNode, 0)
-		zigReverse = false
+		result      = make([][]int, 0)
+		queue       = make([]*TreeNode, 0)
+		leftToRight = true
 	)
 
 	queue = append(queue, root)
 	for len(queue) > 0 {
 		levelSize := len(queue)
-		levelList := make([]int, 0)
+		levelList := make([]int, levelSize)
 		for i := 0; i < levelSize; i++ {
 			curNode := queue[0]
 			queue = queue[1:]
@@ -49,12 +37,14 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 			if curNode.Right != nil {
 				queue = append(queue, curNode.Right)
 			}
-			levelList = append(levelList, curNode.Val)
+
+			if leftToRight {
+				levelList[i] = curNode.Val
+			} else {
+				levelList[levelSize-1-i] = curNode.Val
+			}
 		}
-		if zigReverse {
-			reverse(levelList)
-		}
-		zigReverse = !zigReverse
+		leftToRight = !leftToRight
 		result = append(result, levelList)
 	}
 
