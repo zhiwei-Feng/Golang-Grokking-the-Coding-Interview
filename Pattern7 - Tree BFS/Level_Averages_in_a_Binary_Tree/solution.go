@@ -23,17 +23,18 @@ func averageOfLevels(root *TreeNode) []float64 {
 	for len(queue) > 0 {
 		levelSize := len(queue)
 		levelSum := 0.0
+		p := make([]*TreeNode, 0, levelSize*2)
 		for i := 0; i < levelSize; i++ {
-			curNode := queue[0]
-			queue = queue[1:]
+			curNode := queue[i]
 			levelSum += float64(curNode.Val)
 			if curNode.Left != nil {
-				queue = append(queue, curNode.Left)
+				p = append(p, curNode.Left)
 			}
 			if curNode.Right != nil {
-				queue = append(queue, curNode.Right)
+				p = append(p, curNode.Right)
 			}
 		}
+		queue = p
 		result = append(result, levelSum/float64(levelSize))
 	}
 
