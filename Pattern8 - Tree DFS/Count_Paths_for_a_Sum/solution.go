@@ -13,39 +13,24 @@ type TreeNode struct {
 }
 
 func pathSum(root *TreeNode, targetSum int) int {
-	if root == nil {
+	var pathSumMap = make(map[int]int)
+	pathSumMap[0] = 1
+	return dfs(root, 0, pathSumMap, targetSum)
+}
+
+func dfs(node *TreeNode, acc int, sumMap map[int]int, target int) int {
+	if node == nil {
 		return 0
 	}
-	sum := 0
-	var dfs func(*TreeNode, int)
-	dfs = func(root *TreeNode, left int) {
-		if root.Val == left {
-			sum++
-		}
-		if root.Left != nil {
-			dfs(root.Left, left-root.Val)
-		}
-		if root.Right != nil {
-			dfs(root.Right, left-root.Val)
-		}
-	}
+	var res int
+	acc += node.Val
+	res += sumMap[acc-target]
+	sumMap[acc]++
 
-	// bfs+dfs
-	queue := make([]*TreeNode, 0)
-	queue = append(queue, root)
-	for len(queue) > 0 {
-		levelSize := len(queue)
-		for i := 0; i < levelSize; i++ {
-			curNode := queue[0]
-			queue = queue[1:]
-			dfs(curNode, targetSum)
-			if curNode.Left != nil {
-				queue = append(queue, curNode.Left)
-			}
-			if curNode.Right != nil {
-				queue = append(queue, curNode.Right)
-			}
-		}
-	}
-	return sum
+	res += dfs(node.Left, acc, sumMap, target)
+	res += dfs(node.Right, acc, sumMap, target)
+
+	sumMap[acc]--
+
+	return res
 }
