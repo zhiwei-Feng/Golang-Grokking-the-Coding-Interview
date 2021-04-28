@@ -135,27 +135,31 @@ func medianSlidingWindow(nums []int, k int) []float64 {
 		}
 		results = append(results, mf.FindMedian())
 		//remove from heap
-		if nums[windowStart] > mf.Small.Top() {
-			big := *mf.Big
-			for i, v := range big {
-				if v == nums[windowStart] {
-					heap.Remove(mf.Big, i)
-					break
-				}
-			}
-		} else {
-			small := *mf.Small
-			for i, v := range small {
-				if v == nums[windowStart] {
-					heap.Remove(mf.Small, i)
-					break
-				}
-			}
-		}
+		removeElementFromHeap(nums[windowStart], mf)
 		// reBalance
 		reBalance(&mf)
 		windowStart++
 	}
 
 	return results
+}
+
+func removeElementFromHeap(x int, mf MedianFinder) {
+	if x > mf.Small.Top() {
+		big := *mf.Big
+		for i, v := range big {
+			if v == x {
+				heap.Remove(mf.Big, i)
+				break
+			}
+		}
+	} else {
+		small := *mf.Small
+		for i, v := range small {
+			if v == x {
+				heap.Remove(mf.Small, i)
+				break
+			}
+		}
+	}
 }
