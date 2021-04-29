@@ -118,6 +118,9 @@ func reBalance(mf *MedianFinder) {
 	}
 }
 
+//
+// 算法入口
+//
 func medianSlidingWindow(nums []int, k int) []float64 {
 	if len(nums) == 0 {
 		return []float64{}
