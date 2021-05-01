@@ -6,9 +6,9 @@ func method1() {
 		input = append(input, i)
 	}
 	// method1
-	for i := 0; i < len(input); i++ {
+	for i := 0; i < len(input)/2; i++ {
 		j := len(input) - 1 - i
-		input[i], input[j] = input[j], input[j]
+		input[i], input[j] = input[j], input[i]
 	}
 }
 
