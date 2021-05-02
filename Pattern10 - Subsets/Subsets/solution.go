@@ -20,7 +20,8 @@ func subsets(nums []int) [][]int {
 	for _, currentNum := range nums {
 		n := len(results)
 		for i := 0; i < n; i++ {
-			set := results[i]
+			set := make([]int, len(results[i]))
+			copy(set, results[i])
 			set = append(set, currentNum)
 			results = append(results, set)
 		}
