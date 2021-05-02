@@ -15,15 +15,16 @@ ref: https://leetcode-cn.com/problems/Subsets/
 */
 
 func subsets(nums []int) [][]int {
-	var results = make([][]int, 0, int(math.Pow(2, float64(len(nums)))))
-	results = append(results, []int{})
+	var results = make([][]int, int(math.Pow(2, float64(len(nums)))))
+	results[0] = []int{}
+	i := 1
 	for _, currentNum := range nums {
-		n := len(results)
-		for i := 0; i < n; i++ {
-			set := make([]int, len(results[i]))
-			copy(set, results[i])
-			set = append(set, currentNum)
-			results = append(results, set)
+		for _, subset := range results[:i] {
+			newSubset := make([]int, len(subset)+1)
+			copy(newSubset, subset)
+			newSubset[len(subset)] = currentNum
+			results[i] = newSubset
+			i++
 		}
 	}
 
