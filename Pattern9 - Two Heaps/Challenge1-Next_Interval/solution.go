@@ -19,6 +19,11 @@ Explanation: The next interval of [3,4] is [4,6] which has index ‘2’. There 
 */
 
 func findRightInterval(intervals [][]int) []int {
+	// 双堆写法
+	// 一个小顶堆minR用来返回右侧最小的interval，这个堆用来遍历整个intervals
+	// 一个小顶堆minL用来返回左侧最小的interval，这个堆用来返回满足当前minR的堆顶的next interval
+	// 本质思想时，不是minR的堆顶的next interval也一定不是下一个minR的堆顶的next interval
+	// 这个思路本质上和原course中的解法是一致的。
 	if len(intervals) == 0 {
 		return []int{}
 	}
