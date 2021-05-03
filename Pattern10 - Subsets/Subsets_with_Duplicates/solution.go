@@ -19,41 +19,25 @@ ref: https://leetcode-cn.com/problems/subsets-ii/
 
 func subsetsWithDup(nums []int) [][]int {
 	var (
-		ans       = make([][]int, 0)
-		prevStart = 0
-		prevEnd   = 0
-		prevNum   = math.MinInt8
+		ans      = make([][]int, 0, int(math.Pow(2, float64(len(nums)))))
+		startInd = 0
+		endInd   = 0
 	)
-
-	ans = append(ans, []int{})
-	prevEnd = 1
-
-	// 1. sort nums
 	sort.Ints(nums)
+	ans = append(ans, []int{})
 
-	for _, currentNum := range nums {
-		prevAppend := ans[prevStart:prevEnd]
-		prevStart = prevEnd
-		if prevNum == math.MinInt8 || prevNum != currentNum {
-			for _, subset := range ans[:prevEnd] {
-				newSubset := make([]int, len(subset))
-				copy(newSubset, subset)
-				newSubset = append(newSubset, currentNum)
-				ans = append(ans, newSubset)
-				prevEnd++
-			}
-
-		} else {
-			for _, subset := range prevAppend {
-				// same operation as above
-				newSubset := make([]int, len(subset))
-				copy(newSubset, subset)
-				newSubset = append(newSubset, currentNum)
-				ans = append(ans, newSubset)
-				prevEnd++
-			}
+	for i := 0; i < len(nums); i++ {
+		startInd = 0
+		if i > 0 && nums[i] == nums[i-1] {
+			startInd = endInd + 1
 		}
-		prevNum = currentNum
+		endInd = len(ans) - 1
+		for _, subset := range ans[startInd : endInd+1] {
+			newSubset := make([]int, len(subset), len(subset)+1)
+			copy(newSubset, subset)
+			newSubset = append(newSubset, nums[i])
+			ans = append(ans, newSubset)
+		}
 	}
 
 	return ans
