@@ -17,6 +17,11 @@ Output: [], [1], [5], [3], [1,5], [1,3], [5,3], [1,5,3], [3,3], [1,3,3], [3,3,5]
 ref: https://leetcode-cn.com/problems/subsets-ii/
 */
 
+//
+// 1. 将nums排序
+// 2. 对于currentNum==prevNum，我们只对上一次添加的子集进行新添操作
+// 3. 原因是因为对于在上一次之前的子集，上一次已经进行了一次新添操作，当前轮再做一次操作会导致重复子集的出现，因此不再做操作。
+//
 func subsetsWithDup(nums []int) [][]int {
 	var (
 		ans      = make([][]int, 0, int(math.Pow(2, float64(len(nums)))))
