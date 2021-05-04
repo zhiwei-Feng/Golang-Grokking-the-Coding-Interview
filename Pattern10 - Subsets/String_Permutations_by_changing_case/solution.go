@@ -1,7 +1,6 @@
 package String_Permutations_by_changing_case
 
 import (
-	"strings"
 	"unicode"
 )
 
@@ -17,22 +16,25 @@ Output: "ab7c", "Ab7c", "aB7c", "AB7c", "ab7C", "Ab7C", "aB7C", "AB7C"
 ref: https://leetcode-cn.com/problems/letter-case-permutation/
 */
 
+// original course solution
 func letterCasePermutation(S string) []string {
-	var ans []string
-	ans = append(ans, "")
+	var ans = make([]string, 0)
+	if S == "" {
+		return ans
+	}
 
+	ans = append(ans, S)
 	for i := 0; i < len(S); i++ {
 		if unicode.IsLetter(rune(S[i])) {
 			n := len(ans)
-			char := rune(S[i])
 			for j := 0; j < n; j++ {
-				tmp := ans[j]
-				ans[j] = tmp + letterTo(char, false)
-				ans = append(ans, tmp+letterTo(char, true))
-			}
-		} else {
-			for j := 0; j < len(ans); j++ {
-				ans[j] = ans[j] + string(S[i])
+				var chs = []rune(ans[j])
+				if unicode.IsUpper(rune(chs[i])) {
+					chs[i] = chs[i] + 32
+				} else {
+					chs[i] = chs[i] - 32
+				}
+				ans = append(ans, string(chs))
 			}
 		}
 	}
@@ -40,11 +42,35 @@ func letterCasePermutation(S string) []string {
 	return ans
 }
 
-func letterTo(char rune, upper bool) string {
-	charToString := string(char)
-	if upper {
-		return strings.ToUpper(charToString)
-	} else {
-		return strings.ToLower(charToString)
-	}
-}
+// my solution
+//func letterCasePermutation(S string) []string {
+//	var ans []string
+//	ans = append(ans, "")
+//
+//	for i := 0; i < len(S); i++ {
+//		if unicode.IsLetter(rune(S[i])) {
+//			n := len(ans)
+//			char := rune(S[i])
+//			for j := 0; j < n; j++ {
+//				tmp := ans[j]
+//				ans[j] = tmp + letterTo(char, false)
+//				ans = append(ans, tmp+letterTo(char, true))
+//			}
+//		} else {
+//			for j := 0; j < len(ans); j++ {
+//				ans[j] = ans[j] + string(S[i])
+//			}
+//		}
+//	}
+//
+//	return ans
+//}
+//
+//func letterTo(char rune, upper bool) string {
+//	charToString := string(char)
+//	if upper {
+//		return strings.ToUpper(charToString)
+//	} else {
+//		return strings.ToLower(charToString)
+//	}
+//}
