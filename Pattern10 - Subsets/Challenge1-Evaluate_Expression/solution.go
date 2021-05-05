@@ -22,27 +22,36 @@ func diffWaysToEvaluateExpression(input string) []int {
 	if v, err := strconv.Atoi(input); err == nil {
 		return []int{v}
 	}
-	var ans []int
-	for i := 0; i < len(input); i++ {
-		chr := input[i]
-		if unicode.IsDigit(rune(chr)) == false {
-			leftPart := diffWaysToEvaluateExpression(input[:i])
-			rightPart := diffWaysToEvaluateExpression(input[i+1:])
+	m := make(map[string][]int)
+	var bfs func(string) []int
+	bfs = func(s string) []int {
+		if v, ok := m[s]; ok {
+			return v
+		}
+		var ans []int
+		for i := 0; i < len(input); i++ {
+			chr := input[i]
+			if unicode.IsDigit(rune(chr)) == false {
+				leftPart := diffWaysToEvaluateExpression(input[:i])
+				rightPart := diffWaysToEvaluateExpression(input[i+1:])
 
-			for _, v1 := range leftPart {
-				for _, v2 := range rightPart {
-					switch chr {
-					case '+':
-						ans = append(ans, v1+v2)
-					case '-':
-						ans = append(ans, v1-v2)
-					case '*':
-						ans = append(ans, v1*v2)
+				for _, v1 := range leftPart {
+					for _, v2 := range rightPart {
+						switch chr {
+						case '+':
+							ans = append(ans, v1+v2)
+						case '-':
+							ans = append(ans, v1-v2)
+						case '*':
+							ans = append(ans, v1*v2)
+						}
 					}
 				}
 			}
 		}
+		m[s] = ans
+		return ans
 	}
 
-	return ans
+	return bfs(input)
 }
