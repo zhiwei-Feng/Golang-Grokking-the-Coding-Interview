@@ -1,6 +1,9 @@
 package Unique_Generalized_Abbreviations
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 /*
 Given a word, write a function to generate all of its unique generalized abbreviations.
@@ -23,55 +26,92 @@ func generateAbbreviations(word string) []string {
 	if word == "" {
 		return []string{}
 	}
-	var ans []string
-	var queue []string
-	queue = append(queue, "")
+	ans := make([]string, 0, int(math.Pow(2, float64(len(word)))))
+	wLen := len(word)
+	queue := make([]AbbreviatedWord, 0, int(math.Pow(2, float64(len(word)))))
+	queue = append(queue, AbbreviatedWord{"", 0, 0})
 
 	for len(queue) != 0 {
-		curStr := queue[0]
+		aWord := queue[0]
 		queue = queue[1:]
+		if aWord.start == wLen {
+			if aWord.count != 0 {
+				aWord.Value = aWord.Value + fmt.Sprintf("%d", aWord.count)
+			}
+			ans = append(ans, aWord.Value)
+		} else {
+			queue = append(queue, AbbreviatedWord{aWord.Value, aWord.start + 1, aWord.count + 1})
 
-		if len(curStr) == len(word) {
-			// 替换_
-			newStr := replaceUnderline(curStr)
-			ans = append(ans, newStr)
-			continue
+			if aWord.count != 0 {
+				aWord.Value = aWord.Value + fmt.Sprintf("%d", aWord.count)
+			}
+			aWord.Value = aWord.Value + string(word[aWord.start])
+			queue = append(queue, AbbreviatedWord{aWord.Value, aWord.start + 1, 0})
 		}
-
-		queue = append(queue, curStr+"_")
-		queue = append(queue, curStr+string(word[len(curStr)]))
 	}
 
 	return ans
 }
 
-func replaceUnderline(str string) string {
-	var (
-		start  = -1
-		end    = -1
-		newStr = ""
-	)
-	for i, v := range str {
-		if v != '_' {
-			if start == end && end == -1 {
-				newStr = newStr + string(v)
-				continue
-			}
-			newStr = newStr + fmt.Sprintf("%d", end-start+1) + string(v)
-			start = -1
-			end = -1
-		} else {
-			if start == -1 {
-				start = i
-			}
-			end = i
-		}
-	}
-
-	// 对于全是_的str
-	if start != -1 {
-		newStr = newStr + fmt.Sprintf("%d", end-start+1)
-	}
-
-	return newStr
+type AbbreviatedWord struct {
+	Value string
+	start int
+	count int
 }
+
+//func generateAbbreviations(word string) []string {
+//	if word == "" {
+//		return []string{}
+//	}
+//	var ans []string
+//	var queue []string
+//	queue = append(queue, "")
+//
+//	for len(queue) != 0 {
+//		curStr := queue[0]
+//		queue = queue[1:]
+//
+//		if len(curStr) == len(word) {
+//			// 替换_
+//			newStr := replaceUnderline(curStr)
+//			ans = append(ans, newStr)
+//			continue
+//		}
+//
+//		queue = append(queue, curStr+"_")
+//		queue = append(queue, curStr+string(word[len(curStr)]))
+//	}
+//
+//	return ans
+//}
+//
+//func replaceUnderline(str string) string {
+//	var (
+//		start  = -1
+//		end    = -1
+//		newStr = ""
+//	)
+//	for i, v := range str {
+//		if v != '_' {
+//			if start == end && end == -1 {
+//				newStr = newStr + string(v)
+//				continue
+//			}
+//			newStr = newStr + fmt.Sprintf("%d", end-start+1) + string(v)
+//			start = -1
+//			end = -1
+//		} else {
+//			if start == -1 {
+//				start = i
+//			}
+//			end = i
+//		}
+//	}
+//
+//	// 对于全是_的str
+//	if start != -1 {
+//		newStr = newStr + fmt.Sprintf("%d", end-start+1)
+//	}
+//
+//	return newStr
+//}
