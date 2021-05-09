@@ -44,5 +44,7 @@ func nextGreatestLetter(letters []byte, target byte) byte {
 		}
 	}
 
+	// corner case: 'start == end+1' in original course
+	// when the last element equal to target
 	return letters[start%n]
 }
