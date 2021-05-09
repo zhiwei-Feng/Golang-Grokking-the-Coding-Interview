@@ -26,7 +26,8 @@ Explanation: As the array is assumed to be circular, the smallest letter greater
 */
 
 func nextGreatestLetter(letters []byte, target byte) byte {
-	if letters[len(letters)-1] <= target {
+	n := len(letters)
+	if letters[n-1] < target || letters[0] > target {
 		return letters[0]
 	}
 	var (
@@ -38,10 +39,10 @@ func nextGreatestLetter(letters []byte, target byte) byte {
 		mid := (start + end) / 2
 		if letters[mid] <= target {
 			start = mid + 1
-		} else if letters[mid] > target {
+		} else {
 			end = mid - 1
 		}
 	}
 
-	return letters[start]
+	return letters[start%n]
 }
