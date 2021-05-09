@@ -24,25 +24,24 @@ Explanation: The smallest number greater than or equal to '-1' is '4' having ind
 */
 
 func searchCeilingOfANumber(arr []int, key int) int {
+	if arr[len(arr)-1] < key {
+		return -1
+	}
 	var (
 		start = 0
-		end = len(arr)-1
-		ceil = -1
+		end   = len(arr) - 1
 	)
 
-	for start<=end{
+	for start <= end {
 		mid := (start + end) / 2
-		if arr[mid]<key{
+		if arr[mid] < key {
 			start = mid + 1
-			continue
-		}
-		if arr[mid]==key{
+		} else if arr[mid] > key {
+			end = mid - 1
+		} else {
 			return mid
 		}
-		// arr[mid]>key
-		ceil = mid
-		end = mid-1
 	}
 
-	return ceil
+	return start
 }
