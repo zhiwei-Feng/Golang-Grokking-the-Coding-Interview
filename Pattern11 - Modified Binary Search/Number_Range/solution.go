@@ -1,7 +1,5 @@
 package numberrange
 
-// import "sync"
-
 /*
 Given an array of numbers sorted in ascending order, find the range of a given number ‘key’.
 The range of the ‘key’ will be the first and last position of the ‘key’ in the array.
@@ -19,51 +17,38 @@ Output: [-1, -1]
 */
 
 func searchRange(nums []int, target int) []int {
-	if len(nums) == 0 || target < nums[0] || target > nums[len(nums)-1] {
-		return []int{-1, -1}
+	var res = [2]int{-1, -1}
+
+	res[0] = search(nums, target, true)
+	if res[0] != -1 {
+		res[1] = search(nums, target, false)
 	}
+
+	return res[:]
+}
+
+func search(arr []int, target int, findLeftCorner bool)  int {
 	var (
 		start = 0
-		end   = len(nums) - 1
+		end   = len(arr) - 1
+		index = -1
 	)
 
 	for start <= end {
 		mid := start + (end-start)/2
-		if target > nums[mid] {
+		if target > arr[mid] {
 			start = mid + 1
-		} else if target < nums[mid] {
+		} else if target < arr[mid] {
 			end = mid - 1
 		} else {
-			// 从当前位置找开始点和结尾点
-			// var waitG sync.WaitGroup
-			// waitG.Add(1)
-			// waitG.Add(1)
-			// go func(ind int) {
-			// 	for ind >= 0 && nums[ind] == target {
-			// 		start = ind
-			// 		ind--
-			// 	}
-			// 	waitG.Done()
-			// }(mid)
-
-			// go func(ind int) {
-			// 	for ind < len(nums) && nums[ind] == target {
-			// 		end = ind
-			// 		ind++
-			// 	}
-			// 	waitG.Done()
-			// }(mid)
-
-			// waitG.Wait()
-			for i := mid; i >= 0 && nums[i] == target; i-- {
-				start = i
+			index = mid
+			if findLeftCorner {
+				end = mid - 1
+			} else {
+				start = mid + 1
 			}
-			for i := mid; i < len(nums) && nums[i] == target; i++ {
-				end = i
-			}
-			return []int{start, end}
 		}
 	}
 
-	return []int{-1, -1}
+	return index
 }

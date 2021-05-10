@@ -1,7 +1,6 @@
 package numberrange
 
 import (
-	"math"
 	"reflect"
 	"testing"
 )
