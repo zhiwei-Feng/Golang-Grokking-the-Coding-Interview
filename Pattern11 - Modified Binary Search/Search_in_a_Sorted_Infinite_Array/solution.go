@@ -37,7 +37,7 @@ type ArrayReader struct {
 
 func (reader *ArrayReader) get(index int) int {
 	if index >= len(reader.arr) {
-		return math.MaxInt8
+		return math.MaxInt32
 	}
 
 	return reader.arr[index]
@@ -50,9 +50,7 @@ func search(reader ArrayReader, target int) int {
 	)
 
 	for reader.get(end) < target {
-		newStart := end + 1
-		end += (end - start + 1) * 2
-		start = newStart
+		start, end = end+1, end+(end-start+1)*2
 	}
 
 	return binarySearch(reader, target, start, end)
