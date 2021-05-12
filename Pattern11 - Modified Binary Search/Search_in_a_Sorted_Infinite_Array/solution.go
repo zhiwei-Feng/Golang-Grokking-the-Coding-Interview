@@ -50,15 +50,11 @@ func search(reader ArrayReader, target int) int {
 	)
 
 	for reader.get(end) < target {
-		start, end = end+1, end+(end-start+1)*2
+		start, end = end+1, end<<1
 	}
 
-	return binarySearch(reader, target, start, end)
-}
-
-func binarySearch(reader ArrayReader, target, start, end int) int {
 	for start <= end {
-		mid := start + (end-start)/2
+		mid := start + ((end - start) >> 1)
 		if reader.get(mid) == target {
 			return mid
 		}
