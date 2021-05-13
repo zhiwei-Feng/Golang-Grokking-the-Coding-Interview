@@ -1,6 +1,5 @@
 package bitonicarraymaximum
 
-
 /*
 Find the maximum value in a given Bitonic array.
 An array is considered bitonic if it is monotonically increasing and then monotonically decreasing.
@@ -34,12 +33,9 @@ func findMax(arr []int) int {
 		if arr[mid] < arr[mid+1] {
 			start = mid + 1
 		} else {
-			end = mid - 1
+			end = mid
 		}
 	}
 
-	if start != len(arr)-1 && arr[start+1] > arr[start] {
-		return arr[start+1]
-	}
 	return arr[start]
 }
