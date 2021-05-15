@@ -1,5 +1,6 @@
 package challenge2searchinarotatedarray
 
+
 /*
 Given an array of numbers which is sorted in ascending order and also rotated by some arbitrary number,
 find if a given ‘key’ is present in it.
@@ -19,35 +20,30 @@ ref: https://leetcode-cn.com/problems/search-in-rotated-sorted-array/
 */
 
 func search(nums []int, target int) int {
-	var breakInd = -1
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i] > nums[i+1] {
-			breakInd = i
-			break
-		}
-	}
-	if breakInd == -1 {
-		breakInd = len(nums) - 1
-	}
+	var (
+		start = 0
+		end   = len(nums) - 1
+	)
 
-	keyInd := binarySearch(nums, target, 0, breakInd)
-	if keyInd == -1 {
-		keyInd = binarySearch(nums, target, breakInd+1, len(nums)-1)
-	}
-
-	return keyInd
-}
-
-func binarySearch(arr []int, key int, start, end int) int {
 	for start <= end {
 		mid := start + (end-start)/2
-		if arr[mid] == key {
+		if target == nums[mid] {
 			return mid
 		}
-		if key < arr[mid] {
-			end = mid - 1
+
+		if nums[start] <= nums[mid] {
+			//左侧有序
+			if target < nums[mid] && target >= nums[start] {
+				end = mid - 1
+			} else {
+				start = mid + 1
+			}
 		} else {
-			start = mid + 1
+			if target > nums[mid] && target <= nums[end] {
+				start = mid + 1
+			} else {
+				end = mid - 1
+			}
 		}
 	}
 
