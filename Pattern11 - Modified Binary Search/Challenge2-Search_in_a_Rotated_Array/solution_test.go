@@ -1,6 +1,8 @@
 package challenge2searchinarotatedarray
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_search(t *testing.T) {
 	type args struct {
@@ -22,6 +24,29 @@ func Test_search(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := search(tt.args.nums, tt.args.target); got != tt.want {
 				t.Errorf("search() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_search2(t *testing.T) {
+	type args struct {
+		nums   []int
+		target int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"case1", args{[]int{3, 7, 3, 3, 3}, 7}, 1},
+		{"case2", args{[]int{2, 5, 6, 0, 0, 1, 2}, 6}, 2},
+		{"case3", args{[]int{2, 5, 6, 0, 0, 1, 2}, 3}, -1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := search2(tt.args.nums, tt.args.target); got != tt.want {
+				t.Errorf("search2() = %v, want %v", got, tt.want)
 			}
 		})
 	}
