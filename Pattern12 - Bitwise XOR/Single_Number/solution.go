@@ -8,6 +8,9 @@ Output: 4
 
 Input: 7, 9, 7
 Output: 9
+
+ref: https://leetcode-cn.com/problems/single-number-ii/
+ref: https://leetcode-cn.com/problems/single-number/
 */
 
 func singleNumber(nums []int) int {
