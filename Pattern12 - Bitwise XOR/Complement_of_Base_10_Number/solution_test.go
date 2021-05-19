@@ -14,6 +14,7 @@ func Test_bitwiseComplement(t *testing.T) {
 		{"case1", args{5}, 2},
 		{"case2", args{7}, 0},
 		{"case3", args{10}, 5},
+		{"case4", args{0}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -23,17 +23,16 @@ func bitwiseComplement(n int) int {
 	if n == 0 {
 		return 1
 	}
-	var bit = 1
-	var res = 0
-	var root = 1
-	for n > 0 {
-		if bit&n == 0 {
-			// n的当前比特位为0, 表示反码对应为1
-			res = res + root
-		}
-		n = n >> 1
+	var (
+		all_bit_one = 0
+		root        = 1
+		tmpN        = n
+	)
+	for tmpN > 0 {
+		all_bit_one = all_bit_one + root
 		root = root * 2
+		tmpN = tmpN >> 1
 	}
 
-	return res
+	return all_bit_one ^ n
 }
