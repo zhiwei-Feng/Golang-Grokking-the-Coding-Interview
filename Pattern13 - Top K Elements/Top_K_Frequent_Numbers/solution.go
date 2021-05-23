@@ -2,7 +2,6 @@ package topkfrequentnumbers
 
 import (
 	"container/heap"
-	"fmt"
 )
 
 /*
@@ -22,7 +21,7 @@ ref: https://leetcode-cn.com/problems/top-k-frequent-elements/
 type PairHeap [][2]int
 
 func (ph PairHeap) Len() int            { return len(ph) }
-func (ph PairHeap) Less(i, j int) bool  { return ph[i][1] > ph[j][1] }
+func (ph PairHeap) Less(i, j int) bool  { return ph[i][1] < ph[j][1] }
 func (ph PairHeap) Swap(i, j int)       { ph[i], ph[j] = ph[j], ph[i] }
 func (ph *PairHeap) Push(x interface{}) { *ph = append(*ph, x.([2]int)) }
 func (ph *PairHeap) Pop() interface{} {
@@ -43,15 +42,17 @@ func topKFrequent(nums []int, k int) []int {
 		m[v]++
 	}
 
-	for k, v := range m {
-		ph = append(ph, [2]int{k, v})
-	}
 	heap.Init(&ph)
+	for key, value := range m {
+		heap.Push(&ph, [2]int{key, value})
+		if ph.Len() > k {
+			heap.Pop(&ph)
+		}
+	}
 
 	res := make([]int, 0, k)
-	for i := 0; i < k; i++ {
-		cur := heap.Pop(&ph).([2]int)
-		res = append(res, cur[0])
+	for _, v := range ph {
+		res = append(res, v[0])
 	}
 
 	return res
