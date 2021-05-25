@@ -102,3 +102,30 @@ func (h *IntHeap) Pop() interface{} {
 	*h = old[:n-1]
 	return x
 }
+
+func findClosestElementsByTwoPointer(arr []int, k int, x int) []int {
+	index := binarySearch(arr, x)
+	left, right := index, index+1
+	res := make([]int, 0, k)
+	for i := 0; i < k; i++ {
+		if left >= 0 && right < len(arr) {
+			diff1 := abs(arr[left] - x)
+			diff2 := abs(arr[right] - x)
+			if diff1 <= diff2 {
+				res = append([]int{arr[left]}, res...)
+				left--
+			} else {
+				res = append(res, arr[right])
+				right++
+			}
+		} else if left >= 0 {
+			res = append([]int{arr[left]}, res...)
+			left--
+		} else if right < len(arr) {
+			res = append(res, arr[right])
+			right++
+		}
+	}
+
+	return res
+}
