@@ -22,51 +22,80 @@ ref: https://leetcode-cn.com/problems/find-k-closest-elements/
 */
 
 func findClosestElements(arr []int, k int, x int) []int {
-	var (
-		intMap IntMap
-	)
+	index := binarySearch(arr, x)
+	low, high := index-k, index+k
+	if low < 0 {
+		low = 0
+	}
+	if high > len(arr)-1 {
+		high = len(arr) - 1
+	}
+	var h IntHeap
+	heap.Init(&h)
 
-	heap.Init(&intMap)
-	for i := 0; i < len(arr); i++ {
-		if intMap.Len() < k {
-			heap.Push(&intMap, Integer{arr[i], distance(arr[i], x)})
-			continue
-		}
-
-		curDis := distance(x, arr[i])
-		if curDis < intMap[0].Distance || (curDis == intMap[0].Distance && arr[i] < intMap[0].Value) {
-			heap.Pop(&intMap)
-			heap.Push(&intMap, Integer{arr[i], curDis})
-		}
+	for i := low; i <= high; i++ {
+		heap.Push(&h, Integer{Value: arr[i], Distance: abs(arr[i] - x)})
 	}
 
-	res := make([]int, 0, len(intMap))
-	for _, v := range intMap {
-		res = append(res, v.Value)
+	res := make([]int, 0, k)
+	for i := 0; i < k; i++ {
+		res = append(res, heap.Pop(&h).(Integer).Value)
 	}
+
 	sort.Ints(res)
 	return res
 }
 
-func distance(x, y int) int {
-	res := x - y
-	if res < 0 {
-		res = -res
+func binarySearch(arr []int, x int) int {
+	var (
+		start = 0
+		end   = len(arr) - 1
+	)
+
+	for start <= end {
+		mid := start + (end-start)/2
+		if arr[mid] == x {
+			return mid
+		}
+
+		if x < arr[mid] {
+			end = mid - 1
+		} else {
+			start = mid + 1
+		}
 	}
-	return res
+
+	if start > 0 {
+		return start - 1
+	} else {
+		return start
+	}
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
 
 type Integer struct {
 	Value    int
 	Distance int
 }
-type IntMap []Integer
+type IntHeap []Integer
 
-func (h IntMap) Len() int            { return len(h) }
-func (h IntMap) Less(i, j int) bool  { return h[i].Distance > h[j].Distance }
-func (h IntMap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h *IntMap) Push(x interface{}) { *h = append(*h, x.(Integer)) }
-func (h *IntMap) Pop() interface{} {
+func (h IntHeap) Len() int { return len(h) }
+func (h IntHeap) Less(i, j int) bool {
+	if h[i].Distance != h[j].Distance {
+		return h[i].Distance < h[j].Distance
+	} else {
+		return h[i].Value < h[j].Value
+	}
+}
+func (h IntHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *IntHeap) Push(x interface{}) { *h = append(*h, x.(Integer)) }
+func (h *IntHeap) Pop() interface{} {
 	old := *h
 	n := len(old)
 	x := old[n-1]
