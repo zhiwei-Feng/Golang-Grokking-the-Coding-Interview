@@ -28,30 +28,17 @@ func Constructor(k int, nums []int) KthLargest {
 	heap.Init(&model.H)
 
 	for i := 0; i < len(nums); i++ {
-		if i < k {
-			heap.Push(&model.H, nums[i])
-		} else if nums[i] > model.H[0] {
-			heap.Pop(&model.H)
-			heap.Push(&model.H, nums[i])
-		}
+		model.Add(nums[i])
 	}
 
 	return model
 }
 
 func (this *KthLargest) Add(val int) int {
-	if this.H.Len() < this.K {
-		heap.Push(&this.H, val)
-		if this.H.Len() == this.K {
-			return this.H[0]
-		}
-	}
-
-	if val > this.H[0] {
+	heap.Push(&this.H, val)
+	if this.H.Len() > this.K {
 		heap.Pop(&this.H)
-		heap.Push(&this.H, val)
 	}
-
 	return this.H[0]
 }
 
