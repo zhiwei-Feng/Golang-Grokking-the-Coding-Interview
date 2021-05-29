@@ -18,35 +18,34 @@ ref: https://leetcode-cn.com/problems/maximum-frequency-stack/
 */
 
 type FreqStack struct {
-	Stack []int
-	Heap  FreqHeap
-	Map   map[int]*Frequency
+	Heap      FreqHeap
+	Map       map[int]int
+	SeqNumber int
 }
 
 func Constructor() FreqStack {
 	fs := FreqStack{}
 	heap.Init(&fs.Heap)
-	fs.Map = make(map[int]*Frequency)
+	fs.Map = make(map[int]int)
+	fs.SeqNumber = 0
 	return fs
 }
 
 func (this *FreqStack) Push(val int) {
-	this.Stack = append(this.Stack, val)
-	if f, ok := this.Map[val]; ok {
-		f.LastInd = len(this.Stack) - 1
-		f.Times++
-	} else {
-		this.Map[val] = &Frequency{val, 1, len(this.Stack) - 1}
-	}
-	heap.Push(&this.Heap, *this.Map[val])
+	this.Map[val]++
+	this.SeqNumber++
+	heap.Push(&this.Heap, Frequency{val, this.Map[val], this.SeqNumber})
 }
 
 func (this *FreqStack) Pop() int {
 	x := heap.Pop(&this.Heap).(Frequency).Val
-	this.Map[x].Times--
-	if this.Map[x].Times == 0 {
+
+	if this.Map[x] > 1 {
+		this.Map[x]--
+	} else {
 		delete(this.Map, x)
 	}
+
 	return x
 }
 
