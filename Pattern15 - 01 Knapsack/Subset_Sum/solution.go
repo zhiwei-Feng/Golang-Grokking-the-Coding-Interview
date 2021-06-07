@@ -20,24 +20,19 @@ The given set does not have any subset whose sum is equal to '6'.
 func canPartition(num []int, sum int) bool {
 	// dp[i][j] 前i个数是否可以得到j
 	n := len(num)
-	var dp = make([][]bool, n)
-	for i := 0; i < n; i++ {
-		dp[i] = make([]bool, sum+1)
-	}
-	for i := 0; i <= sum; i++ {
-		if num[0] == i {
-			dp[0][i] = true
-		}
+	var dp = make([]bool, sum+1)
+	dp[0] = true
+	for s := 1; s <= sum; s++ {
+		dp[s] = num[0] == s
 	}
 
 	for i := 1; i < n; i++ {
-		for j := 1; j <= sum; j++ {
-			dp[i][j] = dp[i-1][j]
-			if j >= num[i] && dp[i-1][j-num[i]] {
-				dp[i][j] = true
+		for s := sum; s >= 0; s-- {
+			if !dp[s] && s >= num[i] {
+				dp[s] = dp[s-num[i]]
 			}
 		}
 	}
 
-	return dp[n-1][sum]
+	return dp[sum]
 }
