@@ -15,32 +15,23 @@ The given set has '3' subsets whose sum is '9': {2, 7}, {1, 7, 1}, {1, 2, 1, 5}
 */
 
 func countSubsets(nums []int, sum int) int {
-	//dp[i][j]表示前i个数和为j的个数
+	//dp[i]表示和为j的个数
 	n := len(nums)
-	dp := make([][]int, n)
-	for i := 0; i < n; i++ {
-		dp[i] = make([]int, sum+1)
-	}
-	for i := 0; i <= sum; i++ {
+	dp := make([]int, sum+1)
+	dp[0] = 1
+	for i := 1; i <= sum; i++ {
 		if nums[0] == i {
-			dp[0][i] = 1
+			dp[i] = 1
 		}
-	}
-	for i := 0; i < n; i++ {
-		dp[i][0] = 1
 	}
 
 	for i := 1; i < n; i++ {
-		for s := 1; s <= sum; s++ {
-			branch1 := 0
-			branch2 := 0
+		for s := sum; s >= 0; s-- {
 			if s >= nums[i] {
-				branch1 = dp[i-1][s-nums[i]]
+				dp[s] += dp[s-nums[i]]
 			}
-			branch2 = dp[i-1][s]
-			dp[i][s] = branch1 + branch2
 		}
 	}
 
-	return dp[n-1][sum]
+	return dp[sum]
 }
