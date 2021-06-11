@@ -17,21 +17,47 @@ Explanation: The given set has '2' ways to make a sum of '9': {+1+2+7-1} & {-1+2
 ref: https://leetcode-cn.com/problems/target-sum/
 */
 
+//
+// idea:
+// Sum(s1) - Sum(s2) = target
+// Sum(s1) + Sum(s2) = Sum(num)
+// 其中s1中都是+号的数，s2中都是-号的数
+// 所以Sum(s1) = (target + Sum(num)) / 2
+//
 func findTargetSumWays(nums []int, target int) int {
-	return recursive(nums, 0, target, 0)
-}
+	totalSum := 0
+	for _, v := range nums {
+		totalSum += v
+	}
 
-func recursive(nums []int, curInd int, target int, sum int) int {
-	if curInd == len(nums) {
-		if sum == target {
-			return 1
-		} else {
-			return 0
+	if totalSum < target || (totalSum+target)%2 != 0 {
+		return 0
+	}
+
+	target = (totalSum + target) / 2
+
+	n := len(nums)
+	dp := make([][]int, n)
+	for i := 0; i < n; i++ {
+		dp[i] = make([]int, target+1)
+	}
+	for i := 0; i < n; i++ {
+		dp[i][0] = 1
+	}
+	for i := 0; i <= target; i++ {
+		if nums[0] == i {
+			dp[0][i] = 1
 		}
 	}
 
-	count1 := recursive(nums, curInd+1, target, sum+nums[curInd])
-	count2 := recursive(nums, curInd+1, target, sum-nums[curInd])
+	for i := 1; i < n; i++ {
+		for s := 1; s <= target; s++ {
+			dp[i][s] = dp[i-1][s]
+			if s >= nums[i] {
+				dp[i][s] += dp[i-1][s-nums[i]]
+			}
+		}
+	}
 
-	return count1 + count2
+	return dp[n-1][target]
 }

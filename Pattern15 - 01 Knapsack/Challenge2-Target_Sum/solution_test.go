@@ -17,6 +17,8 @@ func Test_findTargetSumWays(t *testing.T) {
 	}{
 		{"case1", args{[]int{1, 1, 2, 3}, 1}, 3},
 		{"case2", args{[]int{1, 2, 7, 1}, 9}, 2},
+		{"case3", args{[]int{1, 2, 3, 4}, 20}, 0},
+		{"case4", args{[]int{1, 2, 3, 4}, 3}, 0},
 	}
 	for _, tt := range tests {
 		assert.Equal(t, findTargetSumWays(tt.args.nums, tt.args.target), tt.want)
