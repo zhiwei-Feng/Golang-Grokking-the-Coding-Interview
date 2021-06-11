@@ -1,7 +1,6 @@
 package Challenge2_Target_Sum
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -21,6 +20,10 @@ func Test_findTargetSumWays(t *testing.T) {
 		{"case4", args{[]int{1, 2, 3, 4}, 3}, 0},
 	}
 	for _, tt := range tests {
-		assert.Equal(t, findTargetSumWays(tt.args.nums, tt.args.target), tt.want)
+		t.Run(tt.name, func(t *testing.T) {
+			if got := findTargetSumWays(tt.args.nums, tt.args.target); got != tt.want {
+				t.Errorf("canPartition() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

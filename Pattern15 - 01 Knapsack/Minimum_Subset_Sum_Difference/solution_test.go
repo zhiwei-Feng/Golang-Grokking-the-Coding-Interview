@@ -2,8 +2,6 @@ package minimumsubsetsumdifference
 
 import (
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func Test_canPartition(t *testing.T) {
@@ -20,6 +18,10 @@ func Test_canPartition(t *testing.T) {
 		{"case3", args{[]int{1, 3, 100, 4}}, 92},
 	}
 	for _, tt := range tests {
-		assert.Equal(t, canPartition(tt.args.nums), tt.want)
+		t.Run(tt.name, func(t *testing.T) {
+			if got := canPartition(tt.args.nums); got != tt.want {
+				t.Errorf("canPartition() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

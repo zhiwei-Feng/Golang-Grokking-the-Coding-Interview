@@ -2,8 +2,6 @@ package challenge1countofsubsetsum
 
 import (
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func Test_countSubsets(t *testing.T) {
@@ -20,6 +18,10 @@ func Test_countSubsets(t *testing.T) {
 		{"case2", args{[]int{1, 2, 7, 1, 5}, 9}, 3},
 	}
 	for _, tt := range tests {
-		assert.Equal(t, countSubsets(tt.args.nums, tt.args.sum), tt.want)
+		t.Run(tt.name, func(t *testing.T) {
+			if got := countSubsets(tt.args.nums, tt.args.sum); got != tt.want {
+				t.Errorf("canPartition() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
