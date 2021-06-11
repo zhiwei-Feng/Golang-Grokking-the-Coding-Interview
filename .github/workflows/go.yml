@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  GO111MODULE: off
+  GO111MODULE: auto
 
 jobs:
 
