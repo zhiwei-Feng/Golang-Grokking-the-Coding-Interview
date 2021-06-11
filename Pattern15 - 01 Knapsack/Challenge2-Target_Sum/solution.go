@@ -37,27 +37,21 @@ func findTargetSumWays(nums []int, target int) int {
 	target = (totalSum + target) / 2
 
 	n := len(nums)
-	dp := make([][]int, n)
-	for i := 0; i < n; i++ {
-		dp[i] = make([]int, target+1)
-	}
-	for i := 0; i < n; i++ {
-		dp[i][0] = 1
-	}
-	for i := 0; i <= target; i++ {
+	dp := make([]int, target+1)
+	dp[0] = 1
+	for i := 1; i <= target; i++ {
 		if nums[0] == i {
-			dp[0][i] = 1
+			dp[i] = 1
 		}
 	}
 
 	for i := 1; i < n; i++ {
-		for s := 1; s <= target; s++ {
-			dp[i][s] = dp[i-1][s]
+		for s := target; s >= 0; s-- {
 			if s >= nums[i] {
-				dp[i][s] += dp[i-1][s-nums[i]]
+				dp[s] += dp[s-nums[i]]
 			}
 		}
 	}
 
-	return dp[n-1][target]
+	return dp[target]
 }
