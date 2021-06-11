@@ -20,6 +20,9 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.16
+        
+    - name: Get
+      run: go get -d -v ./...
 
     - name: Build
       run: go build -v ./...
