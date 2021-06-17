@@ -1,7 +1,6 @@
 package Challenge2
 
 import (
-	"reflect"
 	"testing"
 )
 
@@ -24,7 +23,15 @@ func Test_findMinHeightTrees(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := findMinHeightTrees(tt.args.n, tt.args.edges); !reflect.DeepEqual(got, tt.want) {
+			m := make(map[int]int)
+			got := findMinHeightTrees(tt.args.n, tt.args.edges)
+			for _, v := range got {
+				m[v] = 1
+			}
+			for _, v := range tt.want {
+				delete(m, v)
+			}
+			if len(m) != 0 {
 				t.Errorf("findMinHeightTrees() = %v, want %v", got, tt.want)
 			}
 		})
