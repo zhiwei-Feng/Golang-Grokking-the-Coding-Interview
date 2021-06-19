@@ -2,6 +2,10 @@ package Miscellaneous
 
 import "container/heap"
 
+//
+// time complexity: O(klogk + (n-k)log(k))
+// space complexity: O(k)
+//
 func findKthSmallestNumberUsingMaxHeap(nums []int, k int) int {
 	if k > len(nums) {
 		return -1
