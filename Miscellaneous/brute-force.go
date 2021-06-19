@@ -21,6 +21,10 @@ package Miscellaneous
 
 import "sort"
 
+//
+// time complexity: O(nlogn)
+// space complexity: O(1)/O(n)
+//
 func findKthSmallestNumber(nums []int, k int) int {
 	if k > len(nums) {
 		return -1
