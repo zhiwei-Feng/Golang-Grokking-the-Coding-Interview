@@ -1,7 +1,7 @@
 package Miscellaneous
 
 //
-// time complexity: O(klogn + n)
+// coverage time complexity: O(n), worst O(n^2)
 // space complexity: O(n)
 //
 func findKthSmallestNumberUsingQuickSort(nums []int, k int) int {
